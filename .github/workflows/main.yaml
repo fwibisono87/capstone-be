@@ -20,7 +20,7 @@ jobs:
 
     - name: Decode Firebase SA Key
       run: |
-         ls -alh && echo "${{ secrets.FB_SA_KEY }}" | base64 --decode > ./dist/env/firebase-sa.json
+         ls -alh src && echo "${{ secrets.FB_SA_KEY }}" | base64 --decode > ./dist/env/firebase-sa.json
 
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
