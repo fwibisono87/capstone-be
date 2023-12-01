@@ -44,7 +44,7 @@ jobs:
   
   deploy-to-gcp:
     env:
-    SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
     steps:
       - name: ssh and deploy
         run: |
