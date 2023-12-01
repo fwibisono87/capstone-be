@@ -54,5 +54,9 @@ jobs:
           eval "$(ssh-agent -s)"
           # Add the SSH key stored in SSH_PRIVATE_KEY to the agent
           ssh-add - <<< "$SSH_PRIVATE_KEY"
-          # SSH into the VM and pull the latest Docker image
-          ssh -o StrictHostKeyChecking=no c010bsy3533@35.247.81.140 "docker pull gcr.io/${{ secrets.GCP_PROJECT_ID }}/makara-backend:$GITHUB_SHA && docker run -d --name makara-backend -p 80:3000 gcr.io/${{ secrets.GCP_PROJECT_ID }}/makara-backend:$GITHUB_SHA"
+          # SSH into the VM and pull the latest Docker image, restart the container
+          ssh -o StrictHostKeyChecking=no c010bsy3533@35.247.81.140 "
+            docker pull gcr.io/${{ secrets.GCP_PROJECT_ID }}/makara-backend:$GITHUB_SHA &&
+            docker stop makara-backend &&
+            docker rm makara-backend &&
+            docker run -d --name makara-backend -p 80:3000 gcr.io/${{ secrets.GCP_PROJECT_ID }}/makara-backend:$GITHUB_SHA"
