@@ -21,12 +21,12 @@ jobs:
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
 
-    - name: Build
-      run: yarn build
-    
     - name: Decode Firebase SA Key
       run: |
-         ls -alh src && echo "${{ secrets.FB_SA_KEY }}" | base64 --decode > ./dist/env/firebase-sa.json
+         ls -alh src && echo "${{ secrets.FB_SA_KEY }}" | base64 --decode > ./env/firebase-sa.json
+
+    - name: Build
+      run: yarn build
 
     - name: Set up Docker
       run: |
