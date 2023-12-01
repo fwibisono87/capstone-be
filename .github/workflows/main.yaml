@@ -31,12 +31,16 @@ jobs:
     - name: Set up Docker and Push to GCR
       run: |
         docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/makara-backend:$GITHUB_SHA .
-        echo ${{ secrets.GCP_SA_KEY }} | docker login -u _json_key --password-stdin https://gcr.io
-        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/makara-backend:$GITHUB_SHA
+      # env:
+        # GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Login to Google Container Registry
       env:
         GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      run: |
+        echo "${GCP_SA_KEY}" | docker login -u _json_key --password-stdin https://gcr.io
 
 
-    # - name: Push to Google Container Registry
-    #   run: |
-    #     docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/makara-backend:$GITHUB_SHA
+    - name: Push to Google Container Registry
+      run: |
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/makara-backend:$GITHUB_SHA
