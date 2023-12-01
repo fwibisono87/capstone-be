@@ -23,7 +23,7 @@ jobs:
 
     - name: Decode Firebase SA Key
       run: |
-         ls -alh && echo "${{ secrets.FB_SA_KEY }}" | base64 --decode > ./env/firebase-sa.json
+         ls -alh && mkdir env && echo "${{ secrets.FB_SA_KEY }}" | base64 --decode > env/firebase-sa.json
 
     - name: Build
       run: yarn build
