@@ -43,6 +43,8 @@ jobs:
         docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/makara-backend:$GITHUB_SHA
   
   deploy-to-gcp:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
     env:
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
     steps:
