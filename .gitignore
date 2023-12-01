@@ -1,0 +1,21 @@
+# Dependency directory
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# TypeScript compiled output
+dist/
+
+# Firebase service account (or any sensitive config files)
+**/firebase-sa.json
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
