@@ -18,15 +18,15 @@ jobs:
       with:
         node-version: '16'
 
-    - name: Decode Firebase SA Key
-      run: |
-         ls -alh src && echo "${{ secrets.FB_SA_KEY }}" | base64 --decode > ./dist/env/firebase-sa.json
-
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
 
     - name: Build
       run: yarn build
+    
+    - name: Decode Firebase SA Key
+      run: |
+         ls -alh src && echo "${{ secrets.FB_SA_KEY }}" | base64 --decode > ./dist/env/firebase-sa.json
 
     - name: Set up Docker
       run: |
