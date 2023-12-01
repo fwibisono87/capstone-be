@@ -13,6 +13,7 @@ dist/
 
 # Firebase service account (or any sensitive config files)
 **/firebase-sa.json
+**/compute-sa.json
 
 # Logs
 *.log
