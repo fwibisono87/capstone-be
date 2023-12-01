@@ -36,9 +36,9 @@ jobs:
 
     - name: Login to Google Container Registry
       env:
-        GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+        GCP_SA_KEY: ${{ secrets.COMPUTE_SA_KEY }}
       run: |
-        docker login -u _json_key --password-stdin https://gcr.io < echo "$GCP_SA_KEY"
+        echo "$GCP_SA_KEY" | docker login -u _json_key --password-stdin https://gcr.io
 
 
 
