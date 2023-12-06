@@ -60,7 +60,30 @@ jobs:
             echo '$COMPUTE_SA_KEY' | base64 --decode > /tmp/gcr_key.json
             sudo docker login -u _json_key --password-stdin https://gcr.io < /tmp/gcr_key.json
             sudo docker pull gcr.io/${{ secrets.GCP_PROJECT_ID }}/makara-backend:$GITHUB_SHA
+
+            # Stop and remove any existing container
             sudo docker stop makara-backend || true
             sudo docker rm makara-backend || true
-            sudo docker run -d --name makara-backend -p 80:3000 gcr.io/${{ secrets.GCP_PROJECT_ID }}/makara-backend:$GITHUB_SHA
+
+            # Create a systemd service file
+            echo '[Unit]
+            Description=Docker Container makara-backend
+            Requires=docker.service
+            After=docker.service
+
+            [Service]
+            Restart=always
+            ExecStart=/usr/bin/docker run --name makara-backend -p 80:3000 gcr.io/${{ secrets.GCP_PROJECT_ID }}/makara-backend:$GITHUB_SHA
+            ExecStop=/usr/bin/docker stop makara-backend
+
+            [Install]
+            WantedBy=multi-user.target' | sudo tee /etc/systemd/system/makara-backend.service
+
+            # Reload the systemd daemon
+            sudo systemctl daemon-reload
+
+            # Enable and start the service
+            sudo systemctl enable makara-backend.service
+            sudo systemctl start makara-backend.service
+
             rm /tmp/gcr_key.json"
