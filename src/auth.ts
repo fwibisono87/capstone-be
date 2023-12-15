@@ -5,7 +5,7 @@ export const checkAuth = async (req: Request, res: Response, next: NextFunction)
   const token = req.headers.authorization?.split('Bearer ')[1];
 
   if (!token) {
-    return res.status(401).send('No token provided, pekopekopeko!');
+    return res.status(401).send('No token was provided, please login.');
   }
 
   try {
@@ -13,6 +13,6 @@ export const checkAuth = async (req: Request, res: Response, next: NextFunction)
     req.user = decodedToken;
     next();
   } catch (error) {
-    return res.status(403).send('Invalid token');
+    return res.status(403).send('Token is invalid');
   }
 };
