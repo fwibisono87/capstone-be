@@ -11,12 +11,20 @@ export class HTTPError extends Error {
   }
 }
 
-export async function fetchImage(imageUrl: string): Promise<Buffer> {
+export async function fetchImage(imageUrl: string): Promise<{buffer: Buffer, mimeType: string}> {
     try {
       const response: Response = await fetch(imageUrl);
   
       if (response.ok) {
-        return await response.buffer();
+        const contentType = response.headers.get('Content-Type');
+        if (contentType && contentType.startsWith('image/')) {
+            return {
+                buffer: await response.buffer(),
+                mimeType: contentType
+              };
+        } else {
+          throw new HTTPError('The URL did not point to an image', 400);
+        }      
       } else {
         // Use the actual status code from the response
         throw new HTTPError('Image not found or is not accessible', response.status);
